@@ -33,23 +33,29 @@
   <import file="../analysis-module-build.xml"/> 
 
   <!-- default configuration: uses mecab-ipadic -->
-  <property name="ipadic.type" value="ipadic"/>
-  <property name="ipadic.version" value="mecab-ipadic-2.7.0-20070801" />
+<!--  <property name="dict.type" value="ipadic"/>-->
+<!--  <property name="dict.version" value="mecab-ipadic-2.7.0-20070801" />-->
+<!--  <property name="dict.src.file" value="${dict.version}.tar.gz" />-->
 
   <!-- alternative configuration: uses mecab-naist-jdic
-  <property name="ipadic.type" value="naist"/>
-  <property name="ipadic.version" value="mecab-naist-jdic-0.6.3b-20111013" />
+  <property name="dict.type" value="naist"/>
+  <property name="dict.version" value="mecab-naist-jdic-0.6.3b-20111013" />
+  <property name="dict.src.file" value="${dict.version}.tar.gz" />
   -->
-  
-  <property name="dict.src.file" value="${ipadic.version}.tar.gz" />
-  <property name="dict.src.dir" value="${build.dir}/${ipadic.version}" />
+
+  <!-- alternative configuration: uses mecab-unidic -->
+  <property name="dict.type" value="unidic"/>
+  <property name="dict.version" value="unidic-cwj-2.3.0"/>
+  <property name="dict.src.file" value="${dict.version}.zip" />
+
+  <property name="dict.src.dir" value="${build.dir}/${dict.version}" />
   <property name="dict.encoding" value="euc-jp"/>
   <property name="dict.format" value="ipadic"/>
   <property name="dict.normalize" value="false"/>
   <property name="dict.target.dir" location="${resources.dir}"/>
 
 
-  <available type="dir" file="${build.dir}/${ipadic.version}" property="dict.available"/>
+  <available type="dir" file="${build.dir}/${dict.version}" property="dict.available"/>
 
   <path id="classpath">
     <pathelement path="${analyzers-common.jar}"/>
@@ -58,10 +64,11 @@
 
   <target name="compile-core" depends="jar-analyzers-common, common.compile-core" />
   <target name="download-dict" depends="ivy-availability-check,ivy-fail,ivy-configure" unless="dict.available">
-     <ivy:retrieve pattern="${build.dir}/${dict.src.file}" conf="${ipadic.type}" symlink="${ivy.symlink}"/>
+     <ivy:retrieve pattern="${build.dir}/${dict.src.file}" conf="${dict.type}" symlink="${ivy.symlink}"/>
      <!-- TODO: we should checksum too -->
-     <gunzip src="${build.dir}/${dict.src.file}"/>
-     <untar src="${build.dir}/${ipadic.version}.tar" dest="${build.dir}"/>
+<!--     <gunzip src="${build.dir}/${dict.src.file}"/>-->
+<!--     <untar src="${build.dir}/${dict.version}.tar" dest="${build.dir}"/>-->
+     <gunzip src="${build.dir}/${dict.src.file}" dest="${build.dir}"/>
   </target>
 
   <target name="patch-dict" depends="download-dict">
