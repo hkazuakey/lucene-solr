@@ -32,6 +32,7 @@ public class DictionaryBuilder {
       String outputDirname,
       String encoding,
       boolean normalizeEntry) throws IOException {
+    
     System.out.println("building tokeninfo dict...");
     TokenInfoDictionaryBuilder tokenInfoBuilder = new TokenInfoDictionaryBuilder(format, encoding, normalizeEntry);    
     TokenInfoDictionaryWriter tokenInfoDictionary = tokenInfoBuilder.build(inputDirname);
