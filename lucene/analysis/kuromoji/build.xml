@@ -65,16 +65,16 @@
   <target name="compile-core" depends="jar-analyzers-common, common.compile-core" />
   <target name="download-dict" depends="ivy-availability-check,ivy-fail,ivy-configure" unless="dict.available">
      <ivy:retrieve pattern="${build.dir}/${dict.src.file}" conf="${dict.type}" symlink="${ivy.symlink}"/>
-     <!-- TODO: we should checksum too -->
-<!--     <gunzip src="${build.dir}/${dict.src.file}"/>-->
-<!--     <untar src="${build.dir}/${dict.version}.tar" dest="${build.dir}"/>-->
+      TODO: we should checksum too
+     <gunzip src="${build.dir}/${dict.src.file}"/>
+     <untar src="${build.dir}/${dict.version}.tar" dest="${build.dir}"/>
      <gunzip src="${build.dir}/${dict.src.file}" dest="${build.dir}"/>
   </target>
 
-  <target name="patch-dict" depends="download-dict">
-    <patch patchfile="src/tools/patches/Noun.proper.csv.patch"
-           originalfile="${dict.src.dir}/Noun.proper.csv"/>
-  </target>
+<!--  <target name="patch-dict" depends="download-dict">-->
+<!--    <patch patchfile="src/tools/patches/Noun.proper.csv.patch"-->
+<!--           originalfile="${dict.src.dir}/Noun.proper.csv"/>-->
+<!--  </target>-->
 
   <path id="tools.dependencies">
     <fileset dir="../icu/lib"/>
@@ -93,7 +93,8 @@
     <pathelement location="${build.dir}/classes/tools-test"/>
   </path>
 
-  <target name="build-dict" depends="compile-tools, patch-dict">
+<!--  <target name="build-dict" depends="compile-tools, patch-dict">-->
+  <target name="build-dict" depends="compile-tools">
     <sequential>
       <delete verbose="true">
         <fileset dir="${resources.dir}/org/apache/lucene/analysis/ja/dict" includes="**/*"/>
