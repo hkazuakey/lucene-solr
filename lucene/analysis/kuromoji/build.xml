@@ -39,6 +39,11 @@
   <property name="ipadic.type" value="naist"/>
   <property name="ipadic.version" value="mecab-naist-jdic-0.6.3b-20111013" />
   -->
+
+  <!-- alternative configuration: uses mecab-unidic
+  <property name="ipadic.type" value="unidic"/>
+  <property name="ipadic.version" value="mecab-naist-jdic-0.6.3b-20111013" />
+  -->
   
   <property name="dict.src.file" value="${ipadic.version}.tar.gz" />
   <property name="dict.src.dir" value="${build.dir}/${ipadic.version}" />
