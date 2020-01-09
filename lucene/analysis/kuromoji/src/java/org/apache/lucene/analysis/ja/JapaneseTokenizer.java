@@ -155,7 +155,6 @@ public final class JapaneseTokenizer extends Tokenizer {
   private final WrappedPositionArray positions = new WrappedPositionArray();
 
   private final boolean discardPunctuation;
-  private final boolean discardCompoundToken;
   private final boolean searchMode;
   private final boolean extendedMode;
   private final boolean outputCompounds;
@@ -260,17 +259,16 @@ public final class JapaneseTokenizer extends Tokenizer {
       userFSTReader = null;
     }
     this.discardPunctuation = discardPunctuation;
-    this.discardCompoundToken = discardCompoundToken;
     switch(mode){
       case SEARCH:
         searchMode = true;
         extendedMode = false;
-        outputCompounds = true;
+        outputCompounds = !discardCompoundToken;
         break;
       case EXTENDED:
         searchMode = true;
         extendedMode = true;
-        outputCompounds = false;
+        outputCompounds = !discardCompoundToken;
         break;
       default:
         searchMode = false;

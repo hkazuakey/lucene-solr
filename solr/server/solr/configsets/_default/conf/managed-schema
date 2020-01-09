@@ -853,7 +853,7 @@
 
            Punctuation characters are discarded by default.  Use discardPunctuation="false" to keep them.
         -->
-        <tokenizer name="japanese" mode="search"/>
+	   <tokenizer name="japanese" mode="search" />
         <!--<tokenizer name="japanese" mode="search" userDictionary="lang/userdict_ja.txt"/>-->
         <!-- Reduces inflected verbs and adjectives to their base/dictionary forms (辞書形) -->
         <filter name="japaneseBaseForm"/>
