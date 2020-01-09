@@ -120,7 +120,7 @@ public final class JapaneseTokenizer extends Tokenizer {
     USER
   }
 
-  private static final boolean VERBOSE = false;
+  private static final boolean VERBOSE = true;
 
   private static final int SEARCH_MODE_KANJI_LENGTH = 2;
 
@@ -155,6 +155,7 @@ public final class JapaneseTokenizer extends Tokenizer {
   private final WrappedPositionArray positions = new WrappedPositionArray();
 
   private final boolean discardPunctuation;
+  private final boolean discardComposedToken;
   private final boolean searchMode;
   private final boolean extendedMode;
   private final boolean outputCompounds;
@@ -197,8 +198,8 @@ public final class JapaneseTokenizer extends Tokenizer {
    * @param discardPunctuation true if punctuation tokens should be dropped from the output.
    * @param mode tokenization mode.
    */
-  public JapaneseTokenizer(UserDictionary userDictionary, boolean discardPunctuation, Mode mode) {
-    this(DEFAULT_TOKEN_ATTRIBUTE_FACTORY, userDictionary, discardPunctuation, mode);
+  public JapaneseTokenizer(UserDictionary userDictionary, boolean discardPunctuation, boolean discardComposedToken, Mode mode) {
+    this(DEFAULT_TOKEN_ATTRIBUTE_FACTORY, userDictionary, discardPunctuation, discardComposedToken, mode);
   }
 
   /**
@@ -210,12 +211,12 @@ public final class JapaneseTokenizer extends Tokenizer {
    * @param mode tokenization mode.
    */
   public JapaneseTokenizer
-      (AttributeFactory factory, UserDictionary userDictionary, boolean discardPunctuation, Mode mode) {
+      (AttributeFactory factory, UserDictionary userDictionary, boolean discardPunctuation, boolean discardComposedToken, Mode mode) {
     this(factory,
          TokenInfoDictionary.getInstance(),
          UnknownDictionary.getInstance(),
          ConnectionCosts.getInstance(),
-         userDictionary, discardPunctuation, mode);
+         userDictionary, discardPunctuation, discardComposedToken, mode);
   }
 
   /**
@@ -238,6 +239,7 @@ public final class JapaneseTokenizer extends Tokenizer {
                            ConnectionCosts connectionCosts,
                            UserDictionary userDictionary,
                            boolean discardPunctuation,
+                           boolean discardComposedToken,
                            Mode mode) {
     super(factory);
     this.dictionary = systemDictionary;
@@ -255,6 +257,7 @@ public final class JapaneseTokenizer extends Tokenizer {
       userFSTReader = null;
     }
     this.discardPunctuation = discardPunctuation;
+    this.discardComposedToken = discardComposedToken;
     switch(mode){
       case SEARCH:
         searchMode = true;

@@ -93,6 +93,8 @@ public class JapaneseTokenizerFactory extends TokenizerFactory implements Resour
 
   private static final String DISCARD_PUNCTUATION = "discardPunctuation"; // Expert option
 
+  private static final String DISCARD_COMPOSED_TOKEN = "discardComposedToken"; // Expert option
+
   private static final String NBEST_COST = "nBestCost";
 
   private static final String NBEST_EXAMPLES = "nBestExamples";
@@ -101,6 +103,7 @@ public class JapaneseTokenizerFactory extends TokenizerFactory implements Resour
 
   private final Mode mode;
   private final boolean discardPunctuation;
+  private final boolean discardComposedToken;
   private final String userDictionaryPath;
   private final String userDictionaryEncoding;
 
@@ -124,6 +127,7 @@ public class JapaneseTokenizerFactory extends TokenizerFactory implements Resour
     userDictionaryPath = args.remove(USER_DICT_PATH);
     userDictionaryEncoding = args.remove(USER_DICT_ENCODING);
     discardPunctuation = getBoolean(args, DISCARD_PUNCTUATION, true);
+    discardComposedToken = getBoolean(args, DISCARD_COMPOSED_TOKEN, false);
     nbestCost = getInt(args, NBEST_COST, 0);
     nbestExamples = args.remove(NBEST_EXAMPLES);
     if (!args.isEmpty()) {
@@ -152,7 +156,7 @@ public class JapaneseTokenizerFactory extends TokenizerFactory implements Resour
 
   @Override
   public JapaneseTokenizer create(AttributeFactory factory) {
-    JapaneseTokenizer t = new JapaneseTokenizer(factory, userDictionary, discardPunctuation, mode);
+    JapaneseTokenizer t = new JapaneseTokenizer(factory, userDictionary, discardPunctuation, discardComposedToken, mode);
     if (nbestExamples != null) {
       nbestCost = Math.max(nbestCost, t.calcNBestCost(nbestExamples));
     }

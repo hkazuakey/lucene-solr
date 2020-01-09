@@ -41,28 +41,28 @@ public class JapaneseAnalyzer extends StopwordAnalyzerBase {
   private final Mode mode;
   private final Set<String> stoptags;
   private final UserDictionary userDict;
-  
+
   public JapaneseAnalyzer() {
     this(null, JapaneseTokenizer.DEFAULT_MODE, DefaultSetHolder.DEFAULT_STOP_SET, DefaultSetHolder.DEFAULT_STOP_TAGS);
   }
-  
+
   public JapaneseAnalyzer(UserDictionary userDict, Mode mode, CharArraySet stopwords, Set<String> stoptags) {
     super(stopwords);
     this.userDict = userDict;
     this.mode = mode;
     this.stoptags = stoptags;
   }
-  
+
   public static CharArraySet getDefaultStopSet(){
     return DefaultSetHolder.DEFAULT_STOP_SET;
   }
-  
+
   public static Set<String> getDefaultStopTags(){
     return DefaultSetHolder.DEFAULT_STOP_TAGS;
   }
-  
+
   /**
-   * Atomically loads DEFAULT_STOP_SET, DEFAULT_STOP_TAGS in a lazy fashion once the 
+   * Atomically loads DEFAULT_STOP_SET, DEFAULT_STOP_TAGS in a lazy fashion once the
    * outer class accesses the static final set the first time.
    */
   private static class DefaultSetHolder {
@@ -84,10 +84,10 @@ public class JapaneseAnalyzer extends StopwordAnalyzerBase {
       }
     }
   }
-  
+
   @Override
   protected TokenStreamComponents createComponents(String fieldName) {
-    Tokenizer tokenizer = new JapaneseTokenizer(userDict, true, mode);
+    Tokenizer tokenizer = new JapaneseTokenizer(userDict, true, false, mode);
     TokenStream stream = new JapaneseBaseFormFilter(tokenizer);
     stream = new JapanesePartOfSpeechStopFilter(stream, stoptags);
     stream = new CJKWidthFilter(stream);
